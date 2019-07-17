@@ -7,9 +7,6 @@
 // on an earlier line), and a group 0 G-code that uses axis words appears on the
 // line, the activity of the group 1 G-code is suspended for that line. The axis
 // word-using G-codes from group 0 are G10, G28, G30, and G92.
-export const modalAddressCodes = ['G', 'M'];
-
-export const axisWordAddresses = ['A', 'B', 'C', 'X', 'Y', 'Z'];
 
 export const nonModalGroups: { [key: string]: { [key: string]: number[] } } = {
   // group 0
@@ -42,21 +39,24 @@ export const modalGroups: { [key: string]: { [key: string]: number[] } } = {
   }
 };
 
+export const modalGroupAddressCodes = Object.keys(modalGroups);
+
 /**
  * Checks only the modal groups for two codes in the same group.
  * @param address The address of the command, e.g. the G in "G18".
  * @param code The code part of the command, e.g. the 18 in "G18".
+ * @returns {string} Returns the group name or undefined if not found.
  */
 export function getModalGroup (address: string, code: number): string {
   const modalGroupCodes = modalGroups[address];
-  const group = Object.keys(modalGroupCodes).reduce((acc: string, groupName: string): string => {
+  if (!modalGroupCodes) { return undefined; }
+  return Object.keys(modalGroupCodes).reduce((acc: string, groupName: string): string => {
     const codeArray = modalGroupCodes[groupName];
     if (codeArray.includes(code)) {
       return groupName;
     }
     return acc;
   }, undefined);
-  return group;
 }
 
 /** Determines if the command code is a non-modal code. */

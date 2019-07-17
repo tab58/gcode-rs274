@@ -13,6 +13,14 @@ export class WordBlock {
     this.address = address;
     this.code = code;
   }
+
+  public hasAddress (s: string): boolean {
+    return (this.address === s);
+  }
+
+  public hasCode (code: number): boolean {
+    return (this.code === code);
+  }
 }
 
 /** Represents a full command block (e.g. "G0 X0.33 Y-0.25 Z0.5"). */

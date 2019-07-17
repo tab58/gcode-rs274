@@ -35,7 +35,7 @@ const sortingRules = [
   new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && ([0, 1, 2, 30, 60].includes(b.command.code)), 18)
 ];
 
-const makeBlockLastRule = new SortingRule<CommandBlock>((b: CommandBlock): boolean => true, 100);
+const makeBlockLastRule = new SortingRule<CommandBlock>((): boolean => true, 100);
 
 const findRuleForBlock = function (block: CommandBlock): SortingRule<CommandBlock> {
   for (let i = 0; i < sortingRules.length; ++i) {
@@ -48,9 +48,9 @@ const findRuleForBlock = function (block: CommandBlock): SortingRule<CommandBloc
 };
 
 export function sortByExecutionOrder (blocks: CommandBlock[]): CommandBlock[] {
-  return blocks.slice().sort((a: CommandBlock, b: CommandBlock) => {
+  return blocks.slice().sort((a: CommandBlock, b: CommandBlock): number => {
     const ruleA = findRuleForBlock(a);
     const ruleB = findRuleForBlock(b);
     return ruleA.precedence - ruleB.precedence;
-  })
+  });
 }

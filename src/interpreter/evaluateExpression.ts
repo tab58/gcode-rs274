@@ -7,7 +7,7 @@ import {
   ArcTangentBlock,
   RealValueBlock,
   TokenType
-} from '../../parser/syntaxTree';
+} from '../parser/syntaxTree';
 
 // TODO: replace this with more numerically precise versions, if possible
 const RAD_TO_DEG: number = 180 / Math.PI;
