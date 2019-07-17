@@ -21,12 +21,8 @@ function stripWhitespace (line: string): string {
   }
 }
 
-export const parseLine = (line: string, lineNo?: number): LineBlock => {
+export const parseLine = (line: string): LineBlock => {
   const sanitizedLine = stripWhitespace(line);
   const lineSyntaxTree = parse<LineBlock>(sanitizedLine, { actions });
-  // override line number if provided
-  if (lineNo) {
-    lineSyntaxTree.setLineNumber(lineNo);
-  }
   return lineSyntaxTree;
 };

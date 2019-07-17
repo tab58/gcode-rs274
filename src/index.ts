@@ -7,7 +7,7 @@ export { RS274Interpreter };
 /**
  * Parses a string that has 1 or more whole lines that conform to RS274NGC specifications.
  * @param program The RS274NGC code in string form.
- * @param interpreter 
+ * @param interpreter The interpreter state machine.
  */
 export const parse = function* (program: string, interpreter: RS274Interpreter = new RS274Interpreter()): IterableIterator<CommandBlock> {
   const lines = program.split('\n');
@@ -18,4 +18,4 @@ export const parse = function* (program: string, interpreter: RS274Interpreter =
       yield command;
     }
   }
-}
+};

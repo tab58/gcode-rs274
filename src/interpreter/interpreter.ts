@@ -43,7 +43,7 @@ export class RS274Interpreter {
 
   public getParameterTable (): ParameterTable { return this._parameterTable.clone(); }
 
-  public loadParameterTable (table: { [key: string]: number }) { this._parameterTable.changeParamStore(table); }
+  public loadParameterTable (table: { [key: string]: number }): void { this._parameterTable.changeParamStore(table); }
 
   public constructor () {
     this._parameterTable = new ParameterTable();
@@ -156,7 +156,7 @@ export class RS274Interpreter {
 
   /** Tests for duplicates in word address. */
   private _areWordsUnique (words: WordBlock[]): boolean {
-    const uniqueWords = uniqBy(words, (word: WordBlock) => word.address);
+    const uniqueWords = uniqBy(words, (word: WordBlock): string => word.address);
     return (words.length === uniqueWords.length);
   }
 
