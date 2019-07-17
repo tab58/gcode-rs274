@@ -1,0 +1,35 @@
+{
+  "name": "gcode-rs274",
+  "version": "0.0.1",
+  "description": "G-code parser and interpreter.",
+  "main": "src/index.ts",
+  "scripts": {
+    "inspect:test:unit": "mocha --inspect-brk -r ts-node/register test/unit/*.test.ts",
+    "start": "ts-node ./src/index.ts",
+    "test": "npm run test:unit",
+    "test:unit": "mocha -r ts-node/register test/unit/*.test.ts",
+    "trial": "npm start -- ../test/sled-0.25-in.nc"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "Tim Bright",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.uniqby": "^4.7.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/lodash.uniqby": "^4.7.6",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.3",
+    "@types/uuid": "^3.4.5",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.5.1"
+  }
+}

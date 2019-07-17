@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+      "target": "es2017",
+      "module": "commonjs",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "lib": ["esnext", "dom"],
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "esModuleInterop": true,
+      "rootDir": ".",
+      "baseUrl": ".",
+      "jsx": "react",
+      "paths": {
+        "*": [
+          "node_modules/*",
+          "src/typings/*",
+          "src/rs274/*"
+        ]
+      }
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

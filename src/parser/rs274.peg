@@ -1,0 +1,28 @@
+grammar RS274Line
+  line <- "/"? line_number? ( segment )* [\n]? %makeLine
+  line_number <- [Nn] digit digit? digit? digit? digit? %makeLineNumber
+  digit <- [0-9]
+  segment <- mid_line_word / comment / parameter_setting
+  mid_line_word <- mid_line_letter real_value %makeMidLineWord
+
+  real_value <- real_number / expression / parameter_value / unary_combo
+  real_number <- ( "+" / "-" )? ( (digit ( digit )* (".")? ( digit )*) / ("." digit ( digit )*) ) %makeRealNumber
+  parameter_value <- "#" real_value %makeGetParameterValue
+  unary_combo <- ordinary_unary_combo / arc_tangent_combo
+  ordinary_unary_combo <- ordinary_unary_operation expression %makeOrdinaryUnaryCombo
+  arc_tangent_combo <- "atan" expression "/" expression %makeArcTangentCombo
+  expression <- "[" real_value ( binary_operation_combo )* "]" %makeExpression
+
+  parameter_setting <- "#" real_value "=" real_value %makeSetParameterValue
+  binary_operation_combo <- ( binary_operation1 / binary_operation2 / binary_operation3 ) real_value %makeBinaryOperationCombo
+  comment <- (message / ordinary_comment)
+  ordinary_comment <- "(" (comment_character)* ")" %makeComment
+  message <- "(" ( white_space )* [Mm] ( white_space )* [Ss] ( white_space )* [Gg] ( white_space )* comma ( comment_character )* ")" %makeMessage
+
+  ordinary_unary_operation <- "abs" / "acos" / "asin" / "cos" / "exp" / "fix" / "fup" / "ln" / "round" / "sin" / "sqrt" / "tan"
+  binary_operation1 <- "**" %makeBinOp
+  binary_operation2 <- "/" / "mod" / "*" %makeBinOp
+  binary_operation3 <- "and" / "xor" / "-" / "or" / "+" %makeBinOp
+  mid_line_letter <- [a-dA-Df-nF-Np-tP-Tx-zX-Z]
+  comment_character <- [a-zA-Z0-9!"#$%&'*\+,.\/:;<=>?@\[\] ^_`{|}~\- \t]
+  white_space <- [\t ]
