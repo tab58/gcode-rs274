@@ -14,25 +14,25 @@ class SortingRule<T> {
  * Sorting rules in execution order.
  */
 const sortingRules = [
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([93, 94].includes(b.command.code)), 0),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'F'), 1),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'S'), 2),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && (b.command.code === 6), 3),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && ([3, 4, 5].includes(b.command.code)), 4),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && ([7, 8, 9].includes(b.command.code)), 5),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && ([48, 49].includes(b.command.code)), 6),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && (b.command.code === 4), 7),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([17, 18, 19].includes(b.command.code)), 8),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([20, 21].includes(b.command.code)), 9),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([40, 41, 42].includes(b.command.code)), 10),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([43, 49].includes(b.command.code)), 11),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([54, 55, 56, 57, 58, 59, 59.1, 59.2, 59.3].includes(b.command.code)), 12),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([61, 61.1, 64.4].includes(b.command.code)), 13),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([90, 91].includes(b.command.code)), 14),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([98, 99].includes(b.command.code)), 15),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([10, 28, 30, 92, 92.1, 92.2, 94].includes(b.command.code)), 16),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'G') && ([0, 1, 2, 3, 53, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89].includes(b.command.code)), 17),
-  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.address === 'M') && ([0, 1, 2, 30, 60].includes(b.command.code)), 18)
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([93, 94].includes(b.command.value)), 0),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'F'), 1),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'S'), 2),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'M') && (b.command.value === 6), 3),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'M') && ([3, 4, 5].includes(b.command.value)), 4),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'M') && ([7, 8, 9].includes(b.command.value)), 5),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'M') && ([48, 49].includes(b.command.value)), 6),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && (b.command.value === 4), 7),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([17, 18, 19].includes(b.command.value)), 8),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([20, 21].includes(b.command.value)), 9),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([40, 41, 42].includes(b.command.value)), 10),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([43, 49].includes(b.command.value)), 11),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([54, 55, 56, 57, 58, 59, 59.1, 59.2, 59.3].includes(b.command.value)), 12),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([61, 61.1, 64.4].includes(b.command.value)), 13),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([90, 91].includes(b.command.value)), 14),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([98, 99].includes(b.command.value)), 15),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([10, 28, 30, 92, 92.1, 92.2, 94].includes(b.command.value)), 16),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'G') && ([0, 1, 2, 3, 53, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89].includes(b.command.value)), 17),
+  new SortingRule<CommandBlock>((b: CommandBlock): boolean => (b.command.code === 'M') && ([0, 1, 2, 30, 60].includes(b.command.value)), 18)
 ];
 
 const makeBlockLastRule = new SortingRule<CommandBlock>((): boolean => true, 100);

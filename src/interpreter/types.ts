@@ -5,21 +5,29 @@ export interface ParameterContext {
 /** Represents a word block (e.g. "X23"). */
 export class WordBlock {
   /** The letter part of the block, e.g. "X". */
-  public readonly address: string;
+  public readonly code: string;
   /** The numeric part of the block, e.g. "23". */
-  public readonly code: number;
+  public readonly value: number;
 
-  public constructor (address: string, code: number) {
-    this.address = address;
+  public constructor (code: string, value: number) {
     this.code = code;
+    this.value = value;
   }
 
-  public hasAddress (s: string): boolean {
-    return (this.address === s);
+  public hasCode (s: string): boolean {
+    return (this.code === s);
   }
 
-  public hasCode (code: number): boolean {
-    return (this.code === code);
+  public hasValue (code: number): boolean {
+    return (this.value === code);
+  }
+
+  public clone (): WordBlock {
+    return new WordBlock(this.code, this.value);
+  }
+
+  public equals (word: WordBlock): boolean {
+    return (this.code === word.code && this.value === word.value);
   }
 }
 
@@ -27,15 +35,23 @@ export class WordBlock {
 export class CommandBlock {
   public readonly command: WordBlock;
   private _words: WordBlock[];
-  public get words (): WordBlock[] { return this._words.slice(); }
+  private _wordObject: { [key: string]: any } = {};
 
-  public constructor (address: WordBlock) {
-    this.command = address;
+  public get words (): WordBlock[] { return this._words.slice(); }
+  
+  public getWordValue (code: string): number { return this._wordObject[code]; }
+
+  public constructor (command: WordBlock) {
+    this.command = command;
     this._words = [];
+    this._wordObject = {
+      [command.code]: command.value
+    };
   }
 
   public addWord (word: WordBlock): void {
     this._words.push(word);
+    this._wordObject[word.code] = word.value;
   }
 
   public forEachWord (callback: (value: WordBlock, index: number, array: WordBlock[]) => void): void {

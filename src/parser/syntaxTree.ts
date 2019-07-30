@@ -15,7 +15,7 @@ export enum TokenType {
   BinaryOperation = 'binary_operation',
   BinaryOperator = 'binary_operator',
   Comment = 'comment',
-  Message = "message"
+  Message = 'message'
 }
 
 class LexerBlock {

@@ -20,7 +20,7 @@ export const defaultParameters = {
   5215: 0.0, // G92 offset B
   5216: 0.0, // G92 offset C
 
-  5220: 1, // coordinate system number
+  5220: 1, // select coordinate system number
 
   5221: 0.0, // CSYS 1 X
   5222: 0.0, // CSYS 1 Y

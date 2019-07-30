@@ -171,8 +171,8 @@ function makeMessage (_input: string, _start: number, _end: number, elements: an
 }
 
 function makeComment (_input: string, _start: number, _end: number, elements: any[]): CommentBlock {
-  const chars = elements.slice(1, -1);
-  const text = joinElementText(chars);
+  const [, textElement] = elements;
+  const { text } = textElement;
   return new CommentBlock(text);
 }
 
