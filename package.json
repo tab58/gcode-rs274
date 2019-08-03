@@ -6,6 +6,7 @@
   "scripts": {
     "inspect:test:unit": "mocha --inspect-brk -r ts-node/register test/unit/*.test.ts",
     "start": "ts-node ./src/index.ts",
+    "lint": "./node_modules/.bin/eslint ./src",
     "test": "npm run test:unit",
     "test:unit": "mocha -r ts-node/register test/unit/*.test.ts",
     "trial": "npm start -- ../test/sled-0.25-in.nc"

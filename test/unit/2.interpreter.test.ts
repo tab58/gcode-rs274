@@ -10,23 +10,22 @@ describe('Interpreter Tests', (): void => {
       interpreter = new RS274Interpreter();
     });
     it('should break line into a single command', (): void => {
-      const line = 'G0X0.12345Y-.55F200';
+      const line = 'G1X0.12345Y-.55F200';
       const ast = parseLine(line);
       const commands = interpreter.readLine(ast);
-      expect(commands.length).to.be.equal(2);
-      const [ fCommand, gCommand ] = commands;
+      expect(commands.length).to.be.equal(1);
+      const [ gCommand ] = commands;
       expect(gCommand.command.code).to.be.equal('G');
-      expect(gCommand.command.value).to.be.equal(0);
+      expect(gCommand.command.value).to.be.equal(1);
       expect(gCommand.getWordValue('X')).to.be.equal(0.12345);
       expect(gCommand.getWordValue('Y')).to.be.equal(-0.55);
-      expect(fCommand.command.code).to.be.equal('F');
-      expect(fCommand.command.value).to.be.equal(200);
+      expect(gCommand.getWordValue('F')).to.be.equal(200);
     });
     it('should error when bad command code is passed', (): void => {
       const line = 'G12G0X0.12345Y-.55F200';
       const ast = parseLine(line);
       const badFn = (): any => interpreter.readLine(ast);
-      expect(badFn).to.throw('Word not recognized: "G12".');
+      expect(badFn).to.throw('Invalid command word: "G12".');
     });
   });
   describe('Expression Evaluation', (): void => {

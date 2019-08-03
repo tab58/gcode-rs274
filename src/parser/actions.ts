@@ -109,7 +109,7 @@ function makeLineNumber (_input: string, _start: number, _end: number, elements:
   // line_number <- letter_n digit digit? digit? digit? digit?
   const [, ...digits] = elements;
   const text = joinElementText(digits);
-  return new LineNumberBlock(Number.parseInt(text));
+  return new LineNumberBlock(Number.parseInt(text, 10));
 }
 
 function makeMidLineWord (_input: string, _start: number, _end: number, elements: any[]): MidlineWordBlock {

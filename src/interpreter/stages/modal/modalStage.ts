@@ -1,25 +1,33 @@
 import uniqBy from 'lodash.uniqby';
 
 import {
-  getModalGroupName,
-  isFromNonmodalGroup,
-  isFromModalGroup,
   modalAxisLetters,
   modalCommandLetters,
   ModalGroupName,
-  NonmodalGroupName
-} from './modals';
+  NonmodalGroupName,
+  getModalGroupName,
+  isFromModalGroup,
+  isFromNonmodalGroup,
+} from '../../modals';
 import { ValidationRule } from './validationRule';
-
-interface Word {
-  code: string;
-  value: number;
-}
+import { InterpreterStage } from '../interpreterStage';
+import { Word, WordBlock, WordCollection } from '../../types';
 
 const lineValidationRules = [
   new ValidationRule<Word[]>('2 G-words cannot be from the same modal group', (words: Word[]): boolean => {
     const gWords = words.filter((w): boolean => w.code === 'G');
     const gModalGroups = gWords.map((word: Word): string => getModalGroupName(word.code, word.value));
+    // check if there is no group; error if yes
+    const blankGroups = gModalGroups.filter((modal: string): boolean => modal === undefined);
+    if (blankGroups.length > 0) {
+      for (let i = 0; i < gModalGroups.length; ++i) {
+        if (gModalGroups[i] === undefined) {
+          const errorWord = gWords[i];
+          throw new Error(`Invalid command word: "${errorWord.code}${errorWord.value}".`);
+        }
+      }
+      return false;
+    }
     const uniqueGroups = uniqBy(gModalGroups, (group: string): string => group);
     return (uniqueGroups.length === gModalGroups.length);
   }),
@@ -57,3 +65,18 @@ export const validateLineWords = (lineWords: Word[], throwOnInvalid: boolean = f
   }
   return acc;
 };
+
+/** Scans individual words and batches them up into commands. */
+export class ModalStage implements InterpreterStage<WordBlock[], WordCollection> {
+  public readonly name = 'Command';
+
+  public constructor () {}
+
+  public validate (words: WordBlock[]): boolean { return validateLineWords(words); }
+
+  public processLineArtifacts (words: WordBlock[]): WordCollection {
+    const collection = new WordCollection();
+    words.forEach((word: WordBlock): void => { collection.addWord(word); });
+    return collection;
+  }
+}

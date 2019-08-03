@@ -1,7 +1,7 @@
-(function() {
+(function () {
   'use strict';
 
-  var extend = function(destination, source) {
+  var extend = function (destination, source) {
     if (!destination || !source) return destination;
     for (var key in source) {
       if (destination[key] !== source[key])
@@ -10,17 +10,17 @@
     return destination;
   };
 
-  var formatError = function(input, offset, expected) {
+  var formatError = function (input, offset, expected) {
     var lines = input.split(/\n/g),
-        lineNo = 0,
-        position = 0;
+      lineNo = 0,
+      position = 0;
 
     while (position <= offset) {
       position += lines[lineNo].length + 1;
       lineNo += 1;
     }
     var message = 'Line ' + lineNo + ': expected ' + expected.join(', ') + '\n',
-        line = lines[lineNo - 1];
+      line = lines[lineNo - 1];
 
     message += line + '\n';
     position -= line.length + 1;
@@ -32,88 +32,88 @@
     return message + '^';
   };
 
-  var inherit = function(subclass, parent) {
-    var chain = function() {};
+  var inherit = function (subclass, parent) {
+    var chain = function () {};
     chain.prototype = parent.prototype;
     subclass.prototype = new chain();
     subclass.prototype.constructor = subclass;
   };
 
-  var TreeNode = function(text, offset, elements) {
+  var TreeNode = function (text, offset, elements) {
     this.text = text;
     this.offset = offset;
     this.elements = elements || [];
   };
 
-  TreeNode.prototype.forEach = function(block, context) {
+  TreeNode.prototype.forEach = function (block, context) {
     for (var el = this.elements, i = 0, n = el.length; i < n; i++) {
       block.call(context, el[i], i, el);
     }
   };
 
-  var TreeNode1 = function(text, offset, elements) {
+  var TreeNode1 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['digit'] = elements[1];
   };
   inherit(TreeNode1, TreeNode);
 
-  var TreeNode2 = function(text, offset, elements) {
+  var TreeNode2 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['mid_line_letter'] = elements[0];
     this['real_value'] = elements[1];
   };
   inherit(TreeNode2, TreeNode);
 
-  var TreeNode3 = function(text, offset, elements) {
+  var TreeNode3 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['digit'] = elements[0];
   };
   inherit(TreeNode3, TreeNode);
 
-  var TreeNode4 = function(text, offset, elements) {
+  var TreeNode4 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['digit'] = elements[1];
   };
   inherit(TreeNode4, TreeNode);
 
-  var TreeNode5 = function(text, offset, elements) {
+  var TreeNode5 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['real_value'] = elements[1];
   };
   inherit(TreeNode5, TreeNode);
 
-  var TreeNode6 = function(text, offset, elements) {
+  var TreeNode6 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['ordinary_unary_operation'] = elements[0];
     this['expression'] = elements[1];
   };
   inherit(TreeNode6, TreeNode);
 
-  var TreeNode7 = function(text, offset, elements) {
+  var TreeNode7 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['expression'] = elements[3];
   };
   inherit(TreeNode7, TreeNode);
 
-  var TreeNode8 = function(text, offset, elements) {
+  var TreeNode8 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['real_value'] = elements[1];
   };
   inherit(TreeNode8, TreeNode);
 
-  var TreeNode9 = function(text, offset, elements) {
+  var TreeNode9 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['real_value'] = elements[3];
   };
   inherit(TreeNode9, TreeNode);
 
-  var TreeNode10 = function(text, offset, elements) {
+  var TreeNode10 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['real_value'] = elements[1];
   };
   inherit(TreeNode10, TreeNode);
 
-  var TreeNode11 = function(text, offset, elements) {
+  var TreeNode11 = function (text, offset, elements) {
     TreeNode.apply(this, arguments);
     this['comma'] = elements[8];
   };
@@ -122,7 +122,7 @@
   var FAILURE = {};
 
   var Grammar = {
-    _read_line: function() {
+    _read_line: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._line = this._cache._line || {};
       var cached = this._cache._line[index0];
@@ -233,7 +233,7 @@
       return address0;
     },
 
-    _read_line_number: function() {
+    _read_line_number: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._line_number = this._cache._line_number || {};
       var cached = this._cache._line_number[index0];
@@ -336,7 +336,7 @@
       return address0;
     },
 
-    _read_digit: function() {
+    _read_digit: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._digit = this._cache._digit || {};
       var cached = this._cache._digit[index0];
@@ -365,7 +365,7 @@
       return address0;
     },
 
-    _read_segment: function() {
+    _read_segment: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._segment = this._cache._segment || {};
       var cached = this._cache._segment[index0];
@@ -390,7 +390,7 @@
       return address0;
     },
 
-    _read_mid_line_word: function() {
+    _read_mid_line_word: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._mid_line_word = this._cache._mid_line_word || {};
       var cached = this._cache._mid_line_word[index0];
@@ -425,7 +425,7 @@
       return address0;
     },
 
-    _read_real_value: function() {
+    _read_real_value: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._real_value = this._cache._real_value || {};
       var cached = this._cache._real_value[index0];
@@ -454,7 +454,7 @@
       return address0;
     },
 
-    _read_real_number: function() {
+    _read_real_number: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._real_number = this._cache._real_number || {};
       var cached = this._cache._real_number[index0];
@@ -686,7 +686,7 @@
       return address0;
     },
 
-    _read_parameter_value: function() {
+    _read_parameter_value: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._parameter_value = this._cache._parameter_value || {};
       var cached = this._cache._parameter_value[index0];
@@ -737,7 +737,7 @@
       return address0;
     },
 
-    _read_unary_combo: function() {
+    _read_unary_combo: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._unary_combo = this._cache._unary_combo || {};
       var cached = this._cache._unary_combo[index0];
@@ -758,7 +758,7 @@
       return address0;
     },
 
-    _read_ordinary_unary_combo: function() {
+    _read_ordinary_unary_combo: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._ordinary_unary_combo = this._cache._ordinary_unary_combo || {};
       var cached = this._cache._ordinary_unary_combo[index0];
@@ -793,7 +793,7 @@
       return address0;
     },
 
-    _read_arc_tangent_combo: function() {
+    _read_arc_tangent_combo: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._arc_tangent_combo = this._cache._arc_tangent_combo || {};
       var cached = this._cache._arc_tangent_combo[index0];
@@ -876,7 +876,7 @@
       return address0;
     },
 
-    _read_expression: function() {
+    _read_expression: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._expression = this._cache._expression || {};
       var cached = this._cache._expression[index0];
@@ -972,7 +972,7 @@
       return address0;
     },
 
-    _read_parameter_setting: function() {
+    _read_parameter_setting: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._parameter_setting = this._cache._parameter_setting || {};
       var cached = this._cache._parameter_setting[index0];
@@ -1055,7 +1055,7 @@
       return address0;
     },
 
-    _read_binary_operation_combo: function() {
+    _read_binary_operation_combo: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._binary_operation_combo = this._cache._binary_operation_combo || {};
       var cached = this._cache._binary_operation_combo[index0];
@@ -1102,7 +1102,7 @@
       return address0;
     },
 
-    _read_comment: function() {
+    _read_comment: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._comment = this._cache._comment || {};
       var cached = this._cache._comment[index0];
@@ -1123,7 +1123,7 @@
       return address0;
     },
 
-    _read_ordinary_comment: function() {
+    _read_ordinary_comment: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._ordinary_comment = this._cache._ordinary_comment || {};
       var cached = this._cache._ordinary_comment[index0];
@@ -1211,7 +1211,7 @@
       return address0;
     },
 
-    _read_message: function() {
+    _read_message: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._message = this._cache._message || {};
       var cached = this._cache._message[index0];
@@ -1463,7 +1463,7 @@
       return address0;
     },
 
-    _read_ordinary_unary_operation: function() {
+    _read_ordinary_unary_operation: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._ordinary_unary_operation = this._cache._ordinary_unary_operation || {};
       var cached = this._cache._ordinary_unary_operation[index0];
@@ -1716,7 +1716,7 @@
       return address0;
     },
 
-    _read_binary_operation1: function() {
+    _read_binary_operation1: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._binary_operation1 = this._cache._binary_operation1 || {};
       var cached = this._cache._binary_operation1[index0];
@@ -1745,7 +1745,7 @@
       return address0;
     },
 
-    _read_binary_operation2: function() {
+    _read_binary_operation2: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._binary_operation2 = this._cache._binary_operation2 || {};
       var cached = this._cache._binary_operation2[index0];
@@ -1818,7 +1818,7 @@
       return address0;
     },
 
-    _read_binary_operation3: function() {
+    _read_binary_operation3: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._binary_operation3 = this._cache._binary_operation3 || {};
       var cached = this._cache._binary_operation3[index0];
@@ -1931,7 +1931,7 @@
       return address0;
     },
 
-    _read_mid_line_letter: function() {
+    _read_mid_line_letter: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._mid_line_letter = this._cache._mid_line_letter || {};
       var cached = this._cache._mid_line_letter[index0];
@@ -1960,7 +1960,7 @@
       return address0;
     },
 
-    _read_comment_character: function() {
+    _read_comment_character: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._comment_character = this._cache._comment_character || {};
       var cached = this._cache._comment_character[index0];
@@ -1989,7 +1989,7 @@
       return address0;
     },
 
-    _read_white_space: function() {
+    _read_white_space: function () {
       var address0 = FAILURE, index0 = this._offset;
       this._cache._white_space = this._cache._white_space || {};
       var cached = this._cache._white_space[index0];
@@ -2019,7 +2019,7 @@
     }
   };
 
-  var Parser = function(input, actions, types) {
+  var Parser = function (input, actions, types) {
     this._input = input;
     this._inputSize = input.length;
     this._actions = actions;
@@ -2030,7 +2030,7 @@
     this._expected = [];
   };
 
-  Parser.prototype.parse = function() {
+  Parser.prototype.parse = function () {
     var tree = this._read_line();
     if (tree !== FAILURE && this._offset === this._inputSize) {
       return tree;
@@ -2043,7 +2043,7 @@
     throw new SyntaxError(formatError(this._input, this._failure, this._expected));
   };
 
-  var parse = function(input, options) {
+  var parse = function (input, options) {
     options = options || {};
     var parser = new Parser(input, options.actions, options.types);
     return parser.parse();

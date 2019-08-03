@@ -8,7 +8,7 @@
 // line, the activity of the group 1 G-code is suspended for that line. The axis
 // word-using G-codes from group 0 are G10, G28, G30, and G92.
 
-interface ModalWord {
+export interface ModalWord {
   code: string;
   value: number;
 }
@@ -22,11 +22,9 @@ const buildModalsOfType = function (word: string, codes: number[]): ModalWord[] 
 };
 
 /** Definition for a modal group, a collection of codes that serve a related function. */
-interface ModalGroup {
+export interface ModalGroup {
   /** The codes that belong to the group. */
   codes: ModalWord[];
-  /** Words that are valid for any code in the group. */
-  words: string[];
 }
 
 export enum NonmodalGroupName {
@@ -39,12 +37,10 @@ export const nonModalCodes: { [key: string]: ModalGroup } = {
   /** Group 0 */
   [NonmodalGroupName.HasAxisWords]: {
     codes: buildModalsOfType('G', [10, 28, 30, 92]),
-    words: ['A', 'B', 'C', 'X', 'Y', 'Z']
   },
   /** Group 0 */
   [NonmodalGroupName.Other]: {
     codes: buildModalsOfType('G', [4, 53, 92.1, 92.2, 92.3]),
-    words: ['P']
   }
 };
 
@@ -85,64 +81,49 @@ export enum ModalGroupName {
 /** Codes and words that correspond to G- and M-commands. */
 export const modalCodes: { [key: string]: ModalGroup  } = {
   [ModalGroupName.GMotion]: {
-    codes: buildModalsOfType('G', [0, 1, 2, 3, 38.2, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89]), // group 1
-    words: ['A', 'B', 'C', 'X', 'Y', 'Z', 'I', 'J', 'K', 'L', 'R', 'Q']
+    codes: buildModalsOfType('G', [0, 1, 2, 3, 38.2, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89]) // group 1
   },
   [ModalGroupName.GPlaneSelection]: {
-    codes: buildModalsOfType('G', [17, 18, 19]), // group 2
-    words: [] as string[]
+    codes: buildModalsOfType('G', [17, 18, 19]) // group 2
   },
   [ModalGroupName.GDistance]: {
-    codes: buildModalsOfType('G', [90, 91]), // group 3
-    words: [] as string[]
+    codes: buildModalsOfType('G', [90, 91]) // group 3
   },
   [ModalGroupName.GFeedRate]: {
-    codes: buildModalsOfType('G', [93, 94]), // group 5
-    words: ['F']
+    codes: buildModalsOfType('G', [93, 94]) // group 5
   },
   [ModalGroupName.GUnits]: {
-    codes: buildModalsOfType('G', [20, 21]), // group 6
-    words: [] as string[]
+    codes: buildModalsOfType('G', [20, 21]) // group 6
   },
   [ModalGroupName.GCutterRadiusCompensation]: {
-    codes: buildModalsOfType('G', [40, 41, 42]), // group 7
-    words: ['D']
+    codes: buildModalsOfType('G', [40, 41, 42]) // group 7
   },
   [ModalGroupName.GToolLengthOffset]: {
-    codes: buildModalsOfType('G', [43, 49]), // group 8
-    words: ['H']
+    codes: buildModalsOfType('G', [43, 49]) // group 8
   },
   [ModalGroupName.GReturnModeCannedCycles]: {
-    codes: buildModalsOfType('G', [98, 99]), // group 10
-    words: [] as string[]
+    codes: buildModalsOfType('G', [98, 99]) // group 10
   },
   [ModalGroupName.GCoordinateSystemSelection]: {
-    codes: buildModalsOfType('G', [54, 55, 56, 57, 58, 59, 59.1, 59.2, 59.3]), // group 12
-    words: [] as string[]
+    codes: buildModalsOfType('G', [54, 55, 56, 57, 58, 59, 59.1, 59.2, 59.3]) // group 12
   },
   [ModalGroupName.GPathControlMode]: {
-    codes: buildModalsOfType('G', [61, 61.1, 64]), // group 13
-    words: [] as string[]
+    codes: buildModalsOfType('G', [61, 61.1, 64]) // group 13
   },
   [ModalGroupName.MStopping]: {
-    codes: buildModalsOfType('M', [0, 1, 2, 30, 60]), // group 4
-    words: [] as string[]
+    codes: buildModalsOfType('M', [0, 1, 2, 30, 60]) // group 4
   },
   [ModalGroupName.MToolChange]: {
-    codes: buildModalsOfType('M', [6]), // group 6
-    words: ['T']
+    codes: buildModalsOfType('M', [6]) // group 6
   },
   [ModalGroupName.MSpindle]: {
-    codes: buildModalsOfType('M', [3, 4, 5]), // group 7
-    words: [] as string[]
+    codes: buildModalsOfType('M', [3, 4, 5]) // group 7
   },
   [ModalGroupName.MCoolant]: {
-    codes: buildModalsOfType('M', [7, 8, 9]), // group 8
-    words: [] as string[]
+    codes: buildModalsOfType('M', [7, 8, 9]) // group 8
   },
   [ModalGroupName.MFeedSpeedSwitches]: {
-    codes: buildModalsOfType('M', [48, 49]), // group 9
-    words: [] as string[]
+    codes: buildModalsOfType('M', [48, 49]) // group 9
   }
 };
 
@@ -151,24 +132,6 @@ export const modalCommandLetters = ['G', 'M'];
 
 /** The code letters for axes. */
 export const modalAxisLetters = ['A', 'B', 'C', 'X', 'Y', 'Z'];
-
-/**
- * Checks a modal code store if a word exists in it, and which modal group it belongs to if yes.
- * @param code The address of the command, e.g. the G in "G18".
- * @param value The code part of the command, e.g. the 18 in "G18".
- * @returns {string} Returns the group name or undefined if not found.
- */
-function getModalGroupNameFromStore (store: { [key: string]: ModalGroup }, code: string, value: number): string {
-  return Object.keys(store).reduce((acc: string, modalGroup: string): string => {
-    const { codes } = store[modalGroup];
-    const containsCode = codes.reduce((acc: boolean, modalWord: ModalWord): boolean => {
-      return acc || (modalWord.code === code && modalWord.value === value);
-    }, false);
-    return containsCode
-      ? modalGroup
-      : acc;
-  }, undefined);
-}
 
 /**
  * Determines if the word is part of a specific modal group.
@@ -195,6 +158,24 @@ export const isFromNonmodalGroup = (code: string, value: number, groupName: Nonm
 };
 
 /**
+ * Checks a modal code store if a word exists in it, and which modal group it belongs to if yes.
+ * @param code The address of the command, e.g. the G in "G18".
+ * @param value The code part of the command, e.g. the 18 in "G18".
+ * @returns {string} Returns the group name or undefined if not found.
+ */
+function getModalGroupNameFromStore (store: { [key: string]: ModalGroup }, code: string, value: number): string {
+  return Object.keys(store).reduce((acc: string, modalGroup: string): string => {
+    const { codes } = store[modalGroup];
+    const containsCode = codes.reduce((acc: boolean, modalWord: ModalWord): boolean => {
+      return acc || (modalWord.code === code && modalWord.value === value);
+    }, false);
+    return containsCode
+      ? modalGroup
+      : acc;
+  }, undefined);
+}
+
+/**
  * Returns the group name for a given word, or undefined if not a modal code.
  * @param code The letter part of the word.
  * @param value The numeric part of the word.
@@ -207,25 +188,3 @@ export const getModalGroupName = (code: string, value: number): string => getMod
  * @param value The numeric part of the word.
  */
 export const getNonmodalGroupName = (code: string, value: number): string => getModalGroupNameFromStore(nonModalCodes, code, value);
-
-export const getCommandGroupName = (code: string, value: number): string => {
-  return getModalGroupName(code, value) || getNonmodalGroupName(code, value);
-};
-
-const getGroupNameForNonCommandWord = (modalStore: { [key: string]: ModalGroup }, code: string): string => {
-  return Object.keys(modalStore).reduce((acc: string, modalGroupName: string): string => {
-    const modalGroup = modalStore[modalGroupName];
-    const { words } = modalGroup;
-    return words.includes(code)
-      ? modalGroupName
-      : acc;
-  }, undefined);
-};
-
-export const getModalGroupNameForNonCommandWord = getGroupNameForNonCommandWord.bind(null, modalCodes);
-
-export const getNonModalGroupNameForNonCommandWord = getGroupNameForNonCommandWord.bind(null, nonModalCodes);
-
-export const getCommandGroupNameForNonCommandWord = (code: string): string => {
-  return getModalGroupNameForNonCommandWord(code) || getNonModalGroupNameForNonCommandWord(code);
-};
