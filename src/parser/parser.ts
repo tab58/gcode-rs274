@@ -22,7 +22,7 @@ function stripWhitespace (line: string): string {
 }
 
 export const parseLine = (line: string): LineBlock => {
-  const sanitizedLine = stripWhitespace(line);
+  const sanitizedLine = stripWhitespace(line.toUpperCase());
   const lineSyntaxTree = parse<LineBlock>(sanitizedLine, { actions });
   return lineSyntaxTree;
 };
