@@ -15,8 +15,8 @@ export class RS274Interpreter {
   private _stages: InterpreterStage<any, any>[];
 
   public constructor (table?: { [key: string]: number }) {
-    const parameterStage = new ParameterStage(table);
     const lineStage = new LineStage();
+    const parameterStage = new ParameterStage(table);
     const modalStage = new ModalStage();
     const commandStage = new CommandStage();
 
@@ -32,15 +32,15 @@ export class RS274Interpreter {
    * Interprets a RS274 line.
    * @param lineAST The abstract syntax tree for the line.
    */
-  public readLine (lineAST: LineBlock): CommandBlock[] {
+  public async readLine (lineAST: LineBlock): Promise<CommandBlock[]> {
     let artifact = lineAST;
     for (let i = 0; i < this._stages.length; ++i) {
       const stage = this._stages[i];
-      const isValid = stage.validate(artifact);
-      if (isValid) {
-        artifact = stage.processLineArtifacts(artifact);
-      } else {
-        throw new Error(`Invalid artifact produced before stage "${stage.name}".`);
+      try {
+        await stage.validate(artifact);
+        artifact = await stage.processLineArtifacts(artifact);
+      } catch (e) {
+        throw e;
       }
     }
     return (artifact as any);

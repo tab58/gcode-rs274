@@ -68,13 +68,13 @@ export const validateLineWords = (lineWords: Word[], throwOnInvalid: boolean = f
 
 /** Scans individual words and batches them up into commands. */
 export class ModalStage implements InterpreterStage<WordBlock[], WordCollection> {
-  public readonly name = 'Command';
+  public readonly name = 'Modal';
 
   public constructor () {}
 
-  public validate (words: WordBlock[]): boolean { return validateLineWords(words); }
+  public async validate (words: WordBlock[]): Promise<boolean> { return validateLineWords(words); }
 
-  public processLineArtifacts (words: WordBlock[]): WordCollection {
+  public async processLineArtifacts (words: WordBlock[]): Promise<WordCollection> {
     const collection = new WordCollection();
     words.forEach((word: WordBlock): void => { collection.addWord(word); });
     return collection;

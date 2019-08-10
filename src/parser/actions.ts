@@ -140,7 +140,7 @@ function makeGetParameterValue (_input: string, _start: number, _end: number, el
 function makeOrdinaryUnaryCombo (_input: string, _start: number, _end: number, elements: any[]): UnaryOperationBlock {
   // ordinary_unary_combo <- ordinary_unary_operation expression
   const [ operationNode, exprNode ] = elements;
-  return new UnaryOperationBlock(operationNode.text, exprNode);
+  return new UnaryOperationBlock(operationNode.text.toLowerCase(), exprNode);
 }
 
 function makeArcTangentCombo (_input: string, _start: number, _end: number, elements: any[]): ArcTangentBlock {

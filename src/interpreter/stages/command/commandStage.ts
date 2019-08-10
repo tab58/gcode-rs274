@@ -82,7 +82,7 @@ export class CommandStage implements InterpreterStage<WordCollection, CommandBlo
     }, true);
   }
 
-  public validate (collection: WordCollection): boolean {
+  public async validate (collection: WordCollection): Promise<boolean> {
     return this._validateCommandWords(collection);
   }
 
@@ -92,7 +92,7 @@ export class CommandStage implements InterpreterStage<WordCollection, CommandBlo
     return builder(command, words);
   }
 
-  public processLineArtifacts (collection: WordCollection): CommandBlock[] {
+  public async processLineArtifacts (collection: WordCollection): Promise<CommandBlock[]> {
     const commands = collection.mapCommands<CommandBlock>((command, words): CommandBlock => this._buildCommandBlock(command, words));
 
     // update the command map

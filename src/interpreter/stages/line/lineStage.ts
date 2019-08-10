@@ -7,9 +7,9 @@ export class LineStage implements InterpreterStage<LineBlock, SegmentBlock[]> {
   
   public constructor () {}
 
-  public validate (): boolean { return true; }
+  public async validate (): Promise<boolean> { return true; }
   
-  public processLineArtifacts (line: LineBlock): SegmentBlock[] {
+  public async processLineArtifacts (line: LineBlock): Promise<SegmentBlock[]> {
     return line.segments;
   }
 }

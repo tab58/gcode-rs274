@@ -19,7 +19,7 @@ grammar RS274Line
   ordinary_comment <- "(" (comment_character)* ")" %makeComment
   message <- "(" ( white_space )* [Mm] ( white_space )* [Ss] ( white_space )* [Gg] ( white_space )* comma ( comment_character )* ")" %makeMessage
 
-  ordinary_unary_operation <- "abs" / "acos" / "asin" / "cos" / "exp" / "fix" / "fup" / "ln" / "round" / "sin" / "sqrt" / "tan"
+  ordinary_unary_operation <- "abs" / "ABS" / "acos" / "ACOS" / "asin" / "ASIN" / "cos" / "COS" / "exp" / "EXP" / "fix" / "FIX" / "fup" / "FUP" / "ln" / "LN" / "round" / "ROUND" / "sin" / "SIN" / "sqrt" / "SQRT" / "tan" / "TAN"
   binary_operation1 <- "**" %makeBinOp
   binary_operation2 <- "/" / "mod" / "*" %makeBinOp
   binary_operation3 <- "and" / "xor" / "-" / "or" / "+" %makeBinOp

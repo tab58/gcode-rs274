@@ -39,8 +39,8 @@ export class ParameterStage implements InterpreterStage<SegmentBlock[], WordBloc
     this._parameterTable = new ParameterTable(table);
   }
 
-  public validate (): boolean { return true; }
-  public processLineArtifacts (segments: SegmentBlock[]): WordBlock[] {
+  public async validate (): Promise<boolean> { return true; }
+  public async processLineArtifacts (segments: SegmentBlock[]): Promise<WordBlock[]> {
     // evaluate the segment expressions and build RS274-compliant words.
     const words: WordBlock[] = (segments.filter((segment): boolean => segment.isType(TokenType.MidlineWord)) as MidlineWordBlock[])
       .map((word: MidlineWordBlock): WordBlock => {
